@@ -1,4 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.db-journal
+*.sqlite3
+*.log
 
-target/
+# Entornos virtuales
+venv/
+.venv/
+
+# Archivos del entorno de desarrollo
+.env
+.env.*
+
+# Archivos de editor/IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Archivos DBT que no necesitas versionar
 dbt_packages/
-logs/
+dbt_modules/
+target/
+dbt.db
+
+# Seeds corregidos y scripts locales si no son definitivos
+corregir_csv.py
+convertir_csv_mexico.py
+ver_columnas_db.py
+
+# Archivos temporales o de prueba
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
