@@ -18,7 +18,6 @@ venv/
 
 # Archivos de editor/IDE
 .vscode/
-.idea/
 *.swp
 *~
 
