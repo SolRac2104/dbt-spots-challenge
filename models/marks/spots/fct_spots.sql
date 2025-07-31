@@ -56,14 +56,14 @@ costos_promedio_brasil as (
 
 spots_brasil_imputado as (
     select
-        fecha,
-        pais,
-        marca,
-        canal,
-        spot_duracion,
-        coalesce(spot_costo, cp.costo_promedio) as spot_costo,
-        tipo_medio,
-        segmento
+        b.fecha,
+        b.pais,
+        b.marca,
+        b.canal,
+        b.spot_duracion,
+        coalesce(b.spot_costo, cp.costo_promedio) as spot_costo,
+        b.tipo_medio,
+        b.segmento
     from brasil b
     left join costos_promedio_brasil cp on b.segmento = cp.segmento
 ),

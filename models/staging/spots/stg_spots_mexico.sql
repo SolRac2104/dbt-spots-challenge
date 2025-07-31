@@ -11,7 +11,7 @@ renombrado as (
         'Mexico' as pais,
         substr("Hora GMT", 1, 10) as fecha,
         substr("Hora GMT", 12, 8) as hora,
-        "Medio" as tipo_medio,
+        "Medio" as Medio,
         "Localidad" as plaza,
         "Grupo Comercial" as red,
         "Estación/Canal" as emisora,
@@ -43,7 +43,7 @@ formateado as (
         end as canal,
         spot_duracion,
         spot_costo,
-        tipo_medio,
+        Medio,
         hora,
         case
             when hora between '08:00:00' and '17:59:59' then 'Day'
