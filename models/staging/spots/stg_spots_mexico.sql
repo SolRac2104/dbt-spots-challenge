@@ -1,40 +1,57 @@
 {{ config(materialized='view') }}
 
-with union_mexico as (
-
+with source as (
     select * from {{ ref('mercado_mexico_20240830') }}
     union all
     select * from {{ ref('mercado_mexico_20240831') }}
-
 ),
 
 renombrado as (
-
     select
-        'Mexico' as Pais,
-        substr("Hora GMT", 1, 10) as Fecha,
-        substr("Hora GMT", 12, 5) as Hora,
-        "Medio",
-        "Localidad" as Plaza,
-        "Grupo Comercial" as Red,
-        "Estación/Canal" as Emisora,
-        "Grupo Estación" as Operador,
-        "Canal" as Programa,
-        null as Evento,
-        "Marca",
+        'Mexico' as pais,
+        substr("Hora GMT", 1, 10) as fecha,
+        substr("Hora GMT", 12, 8) as hora,
+        "Medio" as tipo_medio,
+        "Localidad" as plaza,
+        "Grupo Comercial" as red,
+        "Estación/Canal" as emisora,
+        "Grupo Estación" as operador,
+        "Canal" as canal_original,
+        null as evento,
+        lower(trim("Marca")) as marca,
         "Producto",
         "Versión",
         "Sector",
-        "Sub Sector" as Subsector,
-        "Categoria" as Segmento,
-        null as Agencia,
-        cast("Seg. Truncados" as integer) as Duracion,
-        null as ValorDolar,
-        0 as Falla,
-        0 as EsPrimera
+        "Sub Sector" as subsector,
+        "Categoria" as segmento_comercial,
+        null as agencia,
+        cast("Seg. Truncados" as integer) as spot_duracion,
+        null as spot_costo,
+        0 as falla,
+        0 as esprimera
+    from source
+),
 
-    from union_mexico
-
+formateado as (
+    select
+        date(fecha) as fecha,
+        pais,
+        upper(trim(marca)) as marca,
+        case
+            when lower(canal_original) like '%espn%' then 'ESPN'
+            else trim(canal_original)
+        end as canal,
+        spot_duracion,
+        spot_costo,
+        tipo_medio,
+        hora,
+        case
+            when hora between '08:00:00' and '17:59:59' then 'Day'
+            when hora between '18:00:00' and '23:59:59' then 'Primetime'
+            when hora between '00:00:00' and '01:59:59' then 'Primetime'
+            else 'Greytime'
+        end as segmento
+    from renombrado
 )
 
-select * from renombrado
+select * from formateado
