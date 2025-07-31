@@ -13,7 +13,7 @@ Se trabajo con datasets de dos países: **Brasil** y **México**. Cada país tie
 - Unificar ambas fuentes en una tabla de hechos (`fct_spots`).
 
 
-## 📁 Estructura del Repositorio
+## Estructura del Repositorio
 
 dbt_spots/
 ├── datasets/ # Carpeta de datasets de entrada (simulan la nube)
